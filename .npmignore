@@ -1,0 +1,6 @@
+/src*
+/lib*
+tsconfig.json
+/examples
+.mocharc.json
+/img

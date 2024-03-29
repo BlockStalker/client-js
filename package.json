@@ -1,0 +1,56 @@
+{
+  "name": "@blockstalker/client-js",
+  "version": "0.1.0",
+  "description": "BlockStalker.IO (Algorand Blockchain Events) - Streaming Javascript client",
+  "main": "dist/main.js",
+  "types": "dist/main.d.ts",
+  "type": "module",
+  "exports": {
+    "types": "./dist/main.d.ts",
+    "import": "./dist/main.js",
+    "require": "./dist/main.cjs"
+  },
+  "scripts": {
+    "clean": "rm -rf ./dist",
+    "build": "tsup src/main.ts --dts --format cjs,esm --minify"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BlockStalker/client-js.git"
+  },
+  "keywords": [
+    "blockstalker",
+    "algorand",
+    "algokit",
+    "algorand blockchain",
+    "algorand streaming",
+    "blockstalker.io"
+  ],
+  "contributors": [
+    {
+      "name": "Eric Kirse",
+      "email": "team@blockstalker.io"
+    }
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/BlockStalker/client-js/issues"
+  },
+  "homepage": "https://github.com/BlockStalker/client-js#readme",
+  "devDependencies": {
+    "tsup": "^8.0.2",
+    "typescript": "^5.4.4"
+  },
+  "dependencies": {
+    "@microsoft/signalr": "^8.0.0",
+    "cross-fetch": "^4.0.0",
+    "query-string": "^7.0.1"
+  },
+  "workspaces": [
+    "./dist/*",
+    "./sandbox"
+  ],
+  "engines": {
+    "node": ">=16"
+  }
+}

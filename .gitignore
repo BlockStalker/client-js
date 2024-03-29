@@ -1,0 +1,13 @@
+# project
+dist
+lib
+docs
+.DS_Store
+
+# node
+node_modules
+
+# IDE
+.idea
+.vscode
+*.swp
