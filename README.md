@@ -87,18 +87,12 @@ client.rest.streams.update(streamConfig).then(stream => {
 
 ### Registry
 
-The BlockStalker.IO Registry holds the associations between `Key`, `KeyIdentity`, and `KeyType`, along with some other basic metadata.  Fundamentally, a `Key` is either an Algorand Account (Wallet Address), an Asset Id, or an Application Id.  Looking an item up in the Registry can make it easier to create Filters.
+The BlockStalker.IO Registry holds the associations between `Key`, `KeyGroup`, and `KeyType`, along with some other basic metadata.  Fundamentally, a `Key` is either an Algorand Account (Wallet Address), an Asset Id, or an Application Id.  Looking an item up in the Registry can make it easier to create Filters.
 
 ```javascript
 // Lookup by key (Wallet Address, Asset Id, Application Id)
 const key = '31566704'; // USDC, Asset Id = 31566704
 client.rest.registry.lookup(key).then(item => {
-    console.log(item);
-});
-
-// Lookup by keyId
-import { KeyIdentity } from '@blockstalker/client-js';
-client.rest.registry.lookupKeyId(KeyIdentity.RandGallery).then(item => {
     console.log(item);
 });
 ```
@@ -112,12 +106,12 @@ Filters give developers precise control over which events to receive through str
 Creating a new filter is easy by using the `FilterFormBuilder` provided in the `client-js` library.  Import it along with your `blockStalkerClient`.  A few extra type imports are provided below that aid in filter creation.
 
 ```javascript
-import { blockStalkerClient, FilterFormBuilder, NumericCondition, KeyEvent, KeyIdentity } from '@blockstalker/client-js';
+import { blockStalkerClient, FilterFormBuilder, NumericCondition, KeyEvent, KeyGroup } from '@blockstalker/client-js';
 
 const personalStream = "ABC-YOUR-STREAM-GUID-HERE-123";
 // Create a filter for any USDC (Asset Id = 31566704) transfer over 5 USDC
 const usdcFilter = new FilterFormBuilder()
-    .asKeyFilter('31566704', KeyEvent.AssetXfer)
+    .keyFilter('31566704', KeyEvent.AssetXfer)
     .stream(personalStream)
     .amount(5, NumericCondition.GreaterOrEqual)
     .build();
@@ -168,3 +162,10 @@ const streamConnection = client.streaming.events(handleEvent, [personalStream]);
 await streamConnection.invoke("Subscribe", { stream: personalStream, apiKey: apiKey });
 await streamConnection.invoke("Unsubscribe", { stream: personalStream, apiKey: apiKey });
 ```
+
+# Development
+
+## Local Build & Testing
+
+Run `npm link` on the `client-js` root, then run `npm link @blockstalker/client-js` in any package source where you want to use the locally developed `client-js` library.
+For build & test iteration, run `npm run build` on `client-js`.

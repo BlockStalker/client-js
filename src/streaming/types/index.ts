@@ -2,7 +2,7 @@ export interface IBlockEvent {
     blockStream: string;
     round: number;
     keyType: number;
-    keyIdentity: number;
+    keyGroup: number;
     key: string;
     keyEvent: number;
     loggedAt: string;

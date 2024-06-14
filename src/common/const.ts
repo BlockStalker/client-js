@@ -49,7 +49,7 @@ export const KeyEvent = {
     NFDomainsSale: 432
 };
 
-export const KeyIdentity = {
+export const KeyGroup = {
     Base: 0,
     Algorand: 1,
     Governance: 2,
@@ -74,3 +74,9 @@ export const KeyIdentity = {
     AB2Gallery: 31,
     AlgoXNFT: 32
 };
+
+export const KeyType = {
+    Account: 1,
+    Asset: 2,
+    Application: 3
+}

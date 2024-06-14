@@ -1,6 +1,6 @@
 {
   "name": "@blockstalker/client-js",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "BlockStalker.IO (Algorand Blockchain Events) - Streaming Javascript client",
   "main": "dist/main.js",
   "types": "dist/main.d.ts",

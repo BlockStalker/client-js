@@ -4,7 +4,6 @@ import { IRegistryResult } from "./types.js";
 
 export interface IRegistryClient {
     lookup: (key: string, options?: IRequestOptions) => Promise<IRegistryResult>;
-    lookupKeyId: (id: number, options?: IRequestOptions) => Promise<IRegistryResult>;
 }
 
 const lookup = async (
@@ -22,7 +21,6 @@ export const registryClient = (
     const get = getWithGlobals(apiKey, apiBaseURL, options);
     return ({
         lookup: (key: string, ...args) => lookup(get, 'key', key, ...args),
-        lookupKeyId: (id: number, ...args) => lookup(get, 'id', id, ...args),
     });
 }
 

@@ -3,18 +3,18 @@ export interface IRegistryResult {
     eventFiltersEnabled: boolean;
     events:              number[];
     query:               string;
-    whatIsIt:            IWhatIsIt;
+    identity:            IKeyIdentity;
 }
 
 export interface IBlockItem {
     description: string;
     key:         string;
-    keyIdentity: number;
+    keyGroup: number;
     keyType:     number;
 }
 
-export interface IWhatIsIt {
-    keyIdentity: number;
+export interface IKeyIdentity {
+    keyGroup: number;
     keyType:     number;
 }
 
@@ -55,7 +55,7 @@ export interface IFilter {
     id: number;
     key: string;
     keyEvent: number;
-    keyIdentity: number;
+    keyGroup: number;
     keyType: number;
     lastExecuted: Date;
     matchCount: number;
@@ -67,13 +67,13 @@ export type IFiltersList = IFilter[];
 
 export enum StringCondition {
     Any = 0,
-    StringEqual = 1,
+    Equal = 1,
     Contains = 5
 }
 
 export enum NumericCondition {
     Any = 0,
-    NumericEqual = 2,
+    Equal = 2,
     GreaterOrEqual = 3,
     LessOrEqual = 4,
 }
@@ -82,7 +82,8 @@ export interface IFilterForm {
     action: string;
     stream: string;
     key?: string;
-    keyIdentity?: number;
+    keyGroup?: number;
+    keyType?: number;
     keyEvent: number;
     // Addresses
     receiver?: string;
@@ -111,7 +112,7 @@ const hasConditionType = [
 export class FilterFormBuilder {
     private filterForm: Partial<IFilterForm> = {};
 
-    asKeyFilter(key: string = '', keyEvent: number = 0) {
+    keyFilter(key: string = '', keyEvent: number = 0) {
         this.filterForm = {
             action: 'create',
             key,
@@ -120,10 +121,11 @@ export class FilterFormBuilder {
         return this;
     }
 
-    asEventFilter(keyIdentity: number = 0, keyEvent: number = 0) {
+    idFilter(keyGroup: number = 0, keyType: number = 0, keyEvent: number = 0) {
         this.filterForm = {
             action: 'create',
-            keyIdentity,
+            keyGroup,
+            keyType,
             keyEvent,
         };
         return this;
@@ -132,12 +134,14 @@ export class FilterFormBuilder {
     private set<T extends keyof IFilterForm>(key: T, value: IFilterForm[T], conditionType?: StringCondition | NumericCondition) {
         this.filterForm[key] = value;
         if (hasConditionType.includes(key)) {
-            const defaultCondition = typeof key === 'string' ? StringCondition.StringEqual : NumericCondition.NumericEqual;
+            const defaultCondition = typeof key === 'string' ? StringCondition.Equal : NumericCondition.Equal;
             this.filterForm[key + 'ConditionType'] = conditionType ?? defaultCondition;
         }
         return this;
     }
 
+    // Primitive
+    event(value : number) { return this.set('keyEvent', value); }
     // String Fields
     stream(value: string) { return this.set('stream', value); }
     receiver(value: string, conditionType?: StringCondition) { return this.set('receiver', value, conditionType); }
@@ -155,8 +159,8 @@ export class FilterFormBuilder {
         if (!this.filterForm.action) throw new Error("Filter must have an action.");
         if (!this.filterForm.stream) throw new Error("Filter must specify a target stream.");
         if (!this.filterForm.keyEvent) throw new Error("Filter must specify a key event.");
-        if (!(this.filterForm.key || this.filterForm.keyIdentity)) {
-            throw new Error("Filters must have either: (key + keyEvent) or (keyIdentity + keyEvent)");
+        if (!(this.filterForm.key || (this.filterForm.keyGroup && this.filterForm.keyType))) {
+            throw new Error("Filters must have either: [(key) or (keyGroup + keyType)] and keyEvent");
         }
         return this.filterForm as IFilterForm;
     }
