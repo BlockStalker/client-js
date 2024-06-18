@@ -141,19 +141,24 @@ export class FilterFormBuilder {
     }
 
     // Primitive
-    event(value : number) { return this.set('keyEvent', value); }
+    subscribe(keyEvent : number) {
+        if (this.filterForm.keyEvent > 0) {
+            console.warn("[WARNING] keyEvent already set, overwriting with subscribe()");
+        }
+        return this.set('keyEvent', keyEvent); 
+    }
     // String Fields
-    stream(value: string) { return this.set('stream', value); }
-    receiver(value: string, conditionType?: StringCondition) { return this.set('receiver', value, conditionType); }
-    sender(value: string, conditionType?: StringCondition) { return this.set('sender', value, conditionType); }
-    actor(value: string, conditionType?: StringCondition) { return this.set('actor', value, conditionType); }
-    market(value: string, conditionType?: StringCondition) { return this.set('market', value, conditionType); }
+    stream(streamGuid: string) { return this.set('stream', streamGuid); }
+    receiver(account: string, conditionType?: StringCondition) { return this.set('receiver', account, conditionType); }
+    sender(account: string, conditionType?: StringCondition) { return this.set('sender', account, conditionType); }
+    actor(account: string, conditionType?: StringCondition) { return this.set('actor', account, conditionType); }
+    market(marketName: string, conditionType?: StringCondition) { return this.set('market', marketName, conditionType); }
     // Numerics
-    amount(value: number, conditionType?: NumericCondition) { return this.set('amount', value, conditionType); }
-    price(value: number, conditionType?: NumericCondition) { return this.set('price', value, conditionType); }
-    asset(value: number) { return this.set('asset', value); }
-    asset_1(value: number) { return this.set('asset1', value); }
-    asset_2(value: number) { return this.set('asset2', value); }
+    amount(amount: number, conditionType?: NumericCondition) { return this.set('amount', amount, conditionType); }
+    price(price: number, conditionType?: NumericCondition) { return this.set('price', price, conditionType); }
+    asset(assetId: number) { return this.set('asset', assetId); }
+    asset_1(assetId: number) { return this.set('asset1', assetId); }
+    asset_2(assetId: number) { return this.set('asset2', assetId); }
 
     build(): IFilterForm {
         if (!this.filterForm.action) throw new Error("Filter must have an action.");

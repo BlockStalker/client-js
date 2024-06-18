@@ -11,7 +11,7 @@ BlockStalker.IO Client SDK (JS)
 
 Follow NFTs, Accounts, Apps... anything on Algorand using our JavaScript `client-js` library.  Manage your [BlockStalker.IO](https://blockstalker.io) Streams and Filters via the REST API, find items to follow via the Registry, and subscribe to your streams to receive Algorand MainNet events in real-time.
 
-# Installation
+# 📦 Installation
 
 To install `client-js`, use npm or yarn:
 
@@ -21,11 +21,11 @@ npm install @blockstalker/client-js
 yarn add @blockstalker/client-js
 ```
 
-# Requirements
+# ✅ Requirements
 
 **Using this library requires an API Key via a [BlockStalker.IO subscription](https://blockstalker.io/pricing)**.  Visit your [account page](https://blockstalker.io/account) to generate a new API key.
 
-# Getting Started (in 5 Minutes)
+# 🚀 Getting Started (in 5 Minutes)
 
 ### Hello Blockstalker
 
@@ -35,7 +35,7 @@ To skip the documentation and get going in minutes, clone our [Hello BlockStalke
 git clone https://github.com/BlockStalker/hello-blockstalker-js.git
 ```
 
-# Documentation
+# 💾 Documentation
 
 ## Initialization
 
@@ -163,7 +163,7 @@ await streamConnection.invoke("Subscribe", { stream: personalStream, apiKey: api
 await streamConnection.invoke("Unsubscribe", { stream: personalStream, apiKey: apiKey });
 ```
 
-# Development
+# ⚙️ Development
 
 ## Local Build & Testing
 
