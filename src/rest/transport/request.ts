@@ -30,14 +30,14 @@ export type IStructuredError = InstanceType<typeof StructuredError>;
 
 class StructuredError extends Error {
   constructor(errors: string[]) {
-    super("Errors: " + errors.join('; '));
+    super(errors.join('; '));
   }
 }
 
 export const getWithGlobals: ICurriedGet = (apiKey, apiBase, globalOptions = {}): IGet =>
   async (path, query = {}, options = {}): Promise<any> => {
-    if(!apiKey) {
-      throw new Error("API KEY not configured...");
+    if (!apiKey) {
+      throw new Error("API Key not configured...");
     }
 
     const fetchPage = async (path, query = {}, options: IRequestOptions = {}): Promise<any> => {
@@ -50,13 +50,13 @@ export const getWithGlobals: ICurriedGet = (apiKey, apiBase, globalOptions = {})
         "X-API-Key": `${apiKey}`
       }
 
-      if(globalOptions.trace) {
+      if (globalOptions.trace) {
         console.log("Request URL: ", url);
         const printHeaders = {
           ...headers
         };
 
-        if('X-API-Key' in printHeaders) {
+        if ('X-API-Key' in printHeaders) {
           printHeaders['X-API-Key'] = printHeaders['X-API-Key'].replace(apiKey, 'REDACTED');
         }
 
@@ -70,13 +70,17 @@ export const getWithGlobals: ICurriedGet = (apiKey, apiBase, globalOptions = {})
           headers: headers
         });
 
-        if(globalOptions.trace) {
+        if (globalOptions.trace) {
           console.log("Response Headers: ", response.headers);
         }
 
-        if(response.status >= 400) {
+        if (response.status >= 400) {
           const rawMessage = await response.text();
           let error;
+          if (response.status == 401) {
+            error = new Error("[401] Unauthorized.  Please check: 1) API Key is valid / formatted correctly and 2) your account has the proper permissions.");
+            throw error;
+          }
           try {
             const json = JSON.parse(rawMessage);
             error = new StructuredError(json.errors);
@@ -104,68 +108,73 @@ export const getWithGlobals: ICurriedGet = (apiKey, apiBase, globalOptions = {})
 
 export const postWithGlobals: ICurriedPost = (apiKey, apiBase, globalOptions = {}): IPost =>
   async (path, body = {}, options = {}): Promise<any> => {
-     if (!apiKey) {
-       throw new Error("API KEY not configured...");
-     }
- 
-     const fetchPage = async (path, body = {}, options: IRequestOptions = {}): Promise<any> => {
-       const url = `${apiBase}${path}`;
-       const headers = {
-         ...(options.headers || globalOptions.headers || {}),
-         "X-API-Key": `${apiKey}`,
-         "Content-Type": "application/json"
-       };
- 
-       if (globalOptions.trace) {
-         console.log("Request URL: ", url);
-         const printHeaders = {
-           ...headers
-         };
- 
-         if ('X-API-Key' in printHeaders) {
-           printHeaders['X-API-Key'] = printHeaders['X-API-Key'].replace(apiKey, 'REDACTED');
-         }
- 
-         console.log("Request Headers: ", printHeaders);
-         console.log("Request Body: ", body);
-       }
- 
-       try {
-         const response = await fetchModule.fetch(url, {
-           ...globalOptions,
-           ...options,
-           method: 'POST',
-           headers: headers,
-           body: JSON.stringify(body)
-         });
- 
-         if (globalOptions.trace) {
-           console.log("Response Headers: ", response.headers);
-         }
- 
-         if (response.status >= 400) {
-           const rawMessage = await response.text();
-           let error;
-           try {
-             const json = JSON.parse(rawMessage);
-             error = new StructuredError(json.errors);
-           } catch (e) {
-             error = new Error(rawMessage);
-           }
-           throw error;
-         }
- 
-         const json = await response.json();
-         if (json.success) {
-           return json.data;
-         } else {
-           throw new StructuredError(json.errors);
-         }
- 
-       } catch (e) {
-         throw e;
-       }
-     };
- 
-     return fetchPage(path, body, options);
+    if (!apiKey) {
+      throw new Error("API Key not configured...");
+    }
+
+    const fetchPage = async (path, body = {}, options: IRequestOptions = {}): Promise<any> => {
+      const url = `${apiBase}${path}`;
+      const headers = {
+        ...(options.headers || globalOptions.headers || {}),
+        "X-API-Key": `${apiKey}`,
+        "Content-Type": "application/json"
+      };
+
+      if (globalOptions.trace) {
+        console.log("Request URL: ", url);
+        const printHeaders = {
+          ...headers
+        };
+
+        if ('X-API-Key' in printHeaders) {
+          printHeaders['X-API-Key'] = printHeaders['X-API-Key'].replace(apiKey, 'REDACTED');
+        }
+
+        console.log("Request Headers: ", printHeaders);
+        console.log("Request Body: ", body);
+      }
+
+      try {
+        const response = await fetchModule.fetch(url, {
+          ...globalOptions,
+          ...options,
+          method: 'POST',
+          headers: headers,
+          body: JSON.stringify(body)
+        });
+
+        if (globalOptions.trace) {
+          console.log("Response Headers: ", response.headers);
+        }
+
+        if (response.status >= 400) {
+          const rawMessage = await response.text();
+          let error;
+          if (response.status == 401) {
+            error = new Error("[401] Unauthorized.  Please check: 1) API Key is valid / formatted correctly and 2) your account has the proper permissions.");
+            throw error;
+          }
+          try {
+            const json = JSON.parse(rawMessage);
+            error = new StructuredError(json.errors);
+
+          } catch (e) {
+            error = new Error(rawMessage);
+          }
+          throw error;
+        }
+
+        const json = await response.json();
+        if (json.success) {
+          return json.data;
+        } else {
+          throw new StructuredError(json.errors);
+        }
+
+      } catch (e) {
+        throw e;
+      }
+    };
+
+    return fetchPage(path, body, options);
   };
