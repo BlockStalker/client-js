@@ -46,7 +46,8 @@ export const KeyEvent = {
     TinymanV2FlashSwap: 416,
     TinymanV2SetFee: 417,
     AssetVerification: 430,
-    NFDomainsSale: 432
+    NFDomainsSale: 432,
+    RugNinjaCreateCoin: 450
 };
 
 export const KeyGroup = {
@@ -72,7 +73,8 @@ export const KeyGroup = {
     Trilem: 29,
     ExaMarket: 30,
     AB2Gallery: 31,
-    AlgoXNFT: 32
+    AlgoXNFT: 32,
+    RugNinja: 34
 };
 
 export const KeyType = {
