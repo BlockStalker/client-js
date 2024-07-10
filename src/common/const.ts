@@ -47,7 +47,8 @@ export const KeyEvent = {
     TinymanV2SetFee: 417,
     AssetVerification: 430,
     NFDomainsSale: 432,
-    RugNinjaCreateCoin: 450
+    RugNinjaCreateCoin: 450,
+    RugNinjaDeployCoin: 451
 };
 
 export const KeyGroup = {
