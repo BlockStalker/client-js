@@ -48,7 +48,12 @@ export const KeyEvent = {
     AssetVerification: 430,
     NFDomainsSale: 432,
     RugNinjaCreateCoin: 450,
-    RugNinjaDeployCoin: 451
+    RugNinjaDeployCoin: 451,
+    AlgoCasinoLottoCreate: 460,
+    AlgoCasinoLottoBuyTicket: 461,
+    AlgoCasinoLottoAddPrizePool: 462,
+    AlgoCasinoLottoDrawing: 463,
+    AlgoCasinoLottoDelete: 464
 };
 
 export const KeyGroup = {
@@ -75,7 +80,8 @@ export const KeyGroup = {
     ExaMarket: 30,
     AB2Gallery: 31,
     AlgoXNFT: 32,
-    RugNinja: 34
+    RugNinja: 34,
+    AlgoCasino_Lottery: 35
 };
 
 export const KeyType = {
