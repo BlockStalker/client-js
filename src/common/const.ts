@@ -53,7 +53,8 @@ export const KeyEvent = {
     AlgoCasinoLottoBuyTicket: 461,
     AlgoCasinoLottoAddPrizePool: 462,
     AlgoCasinoLottoDrawing: 463,
-    AlgoCasinoLottoDelete: 464
+    AlgoCasinoLottoDelete: 464,
+    AlgoCasinoWinnerPaid: 465
 };
 
 export const KeyGroup = {
