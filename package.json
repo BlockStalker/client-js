@@ -1,6 +1,6 @@
 {
   "name": "@blockstalker/client-js",
-  "version": "0.2.6",
+  "version": "0.2.7",
   "description": "BlockStalker.IO (Algorand Blockchain Events) - Streaming Javascript client",
   "main": "dist/main.js",
   "types": "dist/main.d.ts",
@@ -42,7 +42,7 @@
     "typescript": "^5.4.4"
   },
   "dependencies": {
-    "@microsoft/signalr": "^8.0.0",
+    "@microsoft/signalr": "^8.0.7",
     "cross-fetch": "^4.0.0",
     "query-string": "^7.0.1"
   },
