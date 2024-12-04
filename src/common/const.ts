@@ -11,6 +11,7 @@ export const KeyEvent = {
     AccountAssetClawback: 9,
     AccountAssetFreeze: 10,
     AccountKeyreg: 11,
+    BlockProposed: 20,
     AssetOptIn: 50,
     AssetOptOut: 51,
     AssetXfer: 52,
