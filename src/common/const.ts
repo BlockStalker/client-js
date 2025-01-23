@@ -12,6 +12,7 @@ export const KeyEvent = {
     AccountAssetFreeze: 10,
     AccountKeyreg: 11,
     BlockProposed: 20,
+    Heartbeat: 21,
     AssetOptIn: 50,
     AssetOptOut: 51,
     AssetXfer: 52,
