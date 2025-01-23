@@ -27,6 +27,10 @@ export interface KeyRegDoc extends INamespacedDoc {
     Actor: string
 }
 
+export interface HeartbeatDoc extends INamespacedDoc {
+    Actor: string
+}
+
 export interface GovernanceDoc extends INamespacedDoc {
     Governor: string
     RawJson: string
